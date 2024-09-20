@@ -61,8 +61,8 @@ log_r.fit(file.iloc[:, [0, 1]], file.iloc[:,2])
 #class_prediction = log_r.predict(file[['Income','CCAvg']])
 
 
-st.subheader('ω0=') 
+st.subheader('ω0 (свободный коэффициент)=') 
 st.subheader(log_r.intercept_)  
-st.subheader('ω1,ω2=')
+st.subheader('ω1,ω2 (коэффициенты первой и второй фичей)=')
 st.subheader(log_r.coef_)   
                                          
