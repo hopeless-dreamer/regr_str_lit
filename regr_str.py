@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import streamlit as st 
 from skimage import io
+import matplotlib.pyplot as plt
 
 st.title(':orange[Построение логистической регрессии]  :chart:')
 st.subheader('***:violet[Допустим датасет с двумя фичами и одним таргетом — в последнем столбце]***')
@@ -61,8 +62,27 @@ log_r.fit(file.iloc[:, [0, 1]], file.iloc[:,2])
 #class_prediction = log_r.predict(file[['Income','CCAvg']])
 
 
-st.subheader('ω0 (свободный коэффициент)=') 
+st.subheader('ω0 (свободный коэффициент) =') 
 st.subheader(log_r.intercept_)  
-st.subheader('ω1,ω2 (коэффициенты первой и второй фичей)=')
+st.subheader('ω1,ω2 (коэффициенты первой и второй фичей) =')
 st.subheader(log_r.coef_)   
-                                         
+
+x = file.iloc[:, 0]
+y = file.iloc[:, 1]
+z = file.iloc[:, 2]
+colors = np.where(z == 0, 'blue', 'red')
+fig, ax = plt.subplots()
+
+ax.scatter(x, y, c=colors)
+ax.set_xlabel('feat1')
+ax.set_ylabel('feat2')
+ax.set_title('Логистическая регрессия')
+
+ω1 = log_r.coef_[1]
+ω2 = log_r.coef_[0]
+ω0 = log_r.intercept_
+
+line_x = np.linspace(-2, 3, 1000)
+line_y = (-ω1 * line_x - ω0) / ω2
+ax.plot(line_x, line_y, color='green')
+st.pyplot(fig)
